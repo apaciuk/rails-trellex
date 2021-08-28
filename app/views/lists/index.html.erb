@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h1>Lists</h1>
+</div>
+ <div class="col-sm-6 text-right" data-controller="board" data-action="force:update@document->board#reload">
+    <button class="btn btn-success" data-action="click->board#reload">Reload Controller</button>
+    <button class="btn btn-success" data-reflex="click->ListReflex#reload">Reload No Controller</button>
+    <%= link_to new_list_path, class: 'btn btn-success' do %>
+      Add New List
+    <% end %>
+  </div>
+</div>
+<div id="lists" class="row">
+  <%= render partial: "list", collection: @lists %>
+  <%= content_tag :div, class: ["col-sm-3"] do %>
+    <div data-reflex-permanent data-controller="toggle" data-toggle-class="d-none">
+      <%= link_to "Add List", new_list_path, data: { action: "click->toggle#toggle" }, class: "btn btn-dark btn-block" %>
+      <br />
+      <%= render "lists/form", list: List.new, class: "d-none", data: { target: "toggle.toggleable", action: "submit->board#create_list" } %>
+    </div>
+  <% end %>
+</div>
